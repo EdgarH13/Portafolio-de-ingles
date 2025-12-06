@@ -3217,8 +3217,6 @@ function openViewer(url,title){
 		const w = window.open('','_blank');
 		if(!w){ alert('Revisa el bloqueador de ventanas.'); return; }
 		const safe = (s)=> s.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-		// use a local relative path for back (will redirect to the portfolio index)
-		const backHref = 'index-ingles.html';
 		const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${safe(title)}</title>
 			<style>body{margin:0;background:#090912;color:#fff;font-family:Rajdhani,Arial,sans-serif}.hdr{display:flex;align-items:center;padding:12px;background:#0c0c14;border-bottom:1px solid rgba(255,255,255,.03)}.logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#960029,#e31b54);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-right:12px}.btn{background:linear-gradient(135deg,#960029,#e31b54);color:#fff;padding:8px 12px;border-radius:4px;text-decoration:none;margin-left:8px;border:none;cursor:pointer}.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:4px;margin-left:8px;cursor:pointer}</style>
 			</head><body>
@@ -3226,9 +3224,10 @@ function openViewer(url,title){
 				<div class="logo">EH</div>
 				<div style="font-weight:700">${safe(title)}</div>
 				<div style="margin-left:auto;display:flex;gap:8px">
-					<!-- Cambiado: botón apunta a la URL solicitada -->
-					<a class="btn" href="https://edgarh13.github.io/Portafolio-de-ingles/" target="_blank" rel="noopener noreferrer">Open in raw tab</a>
-					<button class="btn" onclick="window.location.href='${backHref}';">Back to Portfolio</button>
+					<!-- RESTAURADO: "Open in raw tab" abre la URL del archivo -->
+					<a class="btn" href="${url}" target="_blank" rel="noopener noreferrer">Open in raw tab</a>
+					<!-- CAMBIO: "Back to Portfolio" apunta a la URL proporcionada -->
+					<a class="btn" href="https://edgarh13.github.io/Portafolio-de-ingles/" target="_blank" rel="noopener noreferrer">Back to Portfolio</a>
 					<button class="btn-outline" onclick="window.close();return false;">Close</button>
 				</div>
 			</div>
