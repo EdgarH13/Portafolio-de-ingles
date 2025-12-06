@@ -1819,18 +1819,159 @@
             }
         }
 
-        /* add boxed card styles for material grid */
+        /* UPDATED: resume / timeline styling to match the second image */
+        #resume .cyber-box {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: visible;
+        }
+
+        /* subtle inner frame like the reference */
+        #resume .cyber-box::before{
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.02);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #resume .cyber-box .cyber-box-inner {
+            position: relative;
+            z-index: 1;
+            padding: 30px 28px;
+            background: rgba(12,12,24,0.55);
+            border-radius: 6px;
+            min-height: 220px;
+        }
+
+        /* move the timeline line inward and make it taller and brighter */
+        #resume .timeline {
+            position: relative;
+            padding-left: 72px;
+        }
+        #resume .timeline::before {
+            content: "";
+            position: absolute;
+            left: 48px; /* aligns with dot centers */
+            top: 28px;
+            bottom: 28px;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0,255,213,0.06);
+            z-index: 1;
+        }
+
+        /* dot: smaller, visible and aligned on the line */
+        #resume .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 44px; /* centered on the line */
+            top: 18px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-bg);
+            border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 12px var(--accent-cyan-glow);
+            z-index: 2;
+            transform: scale(1);
+            opacity: 1;
+            transition: transform 0.25s ease;
+        }
+
+        /* connector from dot to card */
+        #resume .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 52px;
+            top: 22px;
+            width: 16px;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-cyan));
+            z-index: 1;
+        }
+
+        /* card content to the right of the line */
+        #resume .timeline-content {
+            position: relative;
+            margin-left: 36px;
+            max-width: calc(100% - 120px);
+            padding: 22px;
+            border-radius: 6px;
+            background: rgba(8,10,18,0.55);
+            border: 1px solid rgba(255,255,255,0.02);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+            z-index: 2;
+        }
+
+        /* date badge style (small teal pill) */
+        #resume .timeline-date {
+            display: inline-block;
+            padding: 6px 10px;
+            background: linear-gradient(90deg, rgba(0,220,190,0.12), rgba(0,220,190,0.18));
+            color: #00ffd5;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border-radius: 6px;
+            border: 1px solid rgba(0,255,213,0.12);
+            margin-bottom: 12px;
+            box-shadow: 0 0 8px rgba(0,255,213,0.04);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* heading inside cards */
+        #resume .timeline-content h4 {
+            margin-top: 6px;
+            margin-bottom: 6px;
+            font-size: 1.05rem;
+            color: #ffffff;
+        }
+
+        /* spacing improvements between items */
+        #resume .timeline-item {
+            margin-bottom: 26px;
+            padding-bottom: 0;
+        }
+
+        /* column titles (Education / Experience) - keep them prominent and inside the inner box */
+        #resume .cyber-box-inner > h3 {
+            margin-bottom: 18px;
+            color: #e6eef2;
+            font-size: 1.25rem;
+            z-index: 2;
+        }
+
+        /* responsive adjustments: keep the same look on smaller screens */
+        @media (max-width: 991.98px) {
+            #resume .timeline { padding-left: 52px; }
+            #resume .timeline::before { left: 32px; top: 20px; bottom: 20px; width: 3px; }
+            #resume .timeline-item::before { left: 28px; top: 12px; width: 8px; height: 8px; }
+            #resume .timeline-item::after { left: 34px; width: 12px; }
+            #resume .timeline-content { margin-left: 28px; max-width: calc(100% - 88px); padding: 18px; }
+            #resume .cyber-box .cyber-box-inner { padding: 20px; }
+        }
+
+        /* ADDED: card styles for the Material grid */
 .card-cyber {
-	/* new boxed card look */
-	background: rgba(21,21,37,0.6);
+	background: rgba(21,21,37,0.62);
 	border: 1px solid rgba(255,255,255,0.03);
 	border-radius: 10px;
-	padding: 18px;
+	padding: 16px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	gap: 12px;
+	transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
 	cursor: pointer;
 }
 .card-cyber:hover {
@@ -1848,40 +1989,31 @@
 	background: linear-gradient(135deg, rgba(0,255,213,0.03), rgba(0,132,255,0.02));
 	border: 1px solid rgba(0,255,213,0.08);
 	color: var(--accent-cyan);
-	font-size: 1.5rem;
+	font-size: 1.4rem;
 	flex-shrink: 0;
 }
 .card-title {
 	font-weight: 700;
 	font-size: 1.05rem;
-	margin-top: 4px;
 	color: #fff;
 }
 .card-desc {
 	font-size: 0.95rem;
 	color: var(--text-muted);
 	margin-top: auto;
+	text-align: left;
 }
 
-/* keep responsive behavior for small screens */
-@media (max-width:575.98px){
+/* Responsive tweaks */
+@media (max-width: 575.98px){
 	.card-icon-square { width:56px; height:56px; font-size:1.25rem; }
 	.card-title { font-size:1rem; }
 }
 
-/* Fix: ensure Bootstrap modal sits above all custom layers and is interactive */
-.modal-backdrop {
-    z-index: 99998 !important;
-    pointer-events: auto !important;
-}
-.modal {
-    z-index: 99999 !important;
-    pointer-events: auto !important;
-}
-/* ensure modal dialog and content have the highest stacking inside modal */
-.modal .modal-dialog,
-.modal .modal-content {
-    z-index: 100000 !important;
+/* CHANGE: add CSS to remove underline from cover2 (skip-modal anchors) */
+.card-cyber.skip-modal {
+    text-decoration: none;
+    color: inherit;
 }
     </style>
 </head>
@@ -1928,7 +2060,10 @@
             <a class="navbar-brand" href="#">
                 <div class="logo-container">
                     <div class="logo-icon">EH</div>
-                    <div class="logo-text">EDGAR HERRERA</div>
+                    <div class="logo-text" style="line-height:1;">
+                        EDGAR HERRERA<br>
+                        <span style="font-family: 'Rajdhani',sans-serif; font-weight:300; font-size:0.8rem; color: #bfcbd0;"></span>
+                    </div>
                 </div>
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -1940,16 +2075,9 @@
                         <a class="nav-link" href="#about" data-text="About">About</a>
                     </li>
                     <li class="nav-item">
-                        <!-- renamed Skills -> Material -->
                         <a class="nav-link" href="#skills" data-text="Material">Material</a>
                     </li>
-                    <!-- Removed Resume and Contact nav items as requested -->
                 </ul>
-                <!-- share button -->
-                <button id="shareBtn" class="btn btn-sm btn-outline-light ms-3" type="button" title="Share portfolio">
-                    <i class="fas fa-share-alt" aria-hidden="true"></i>
-                    <span class="visually-hidden">Share portfolio</span>
-                </button>
             </div>
         </div>
     </nav>
@@ -1966,14 +2094,12 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-                        <!-- headline translated to English -->
                         <h1 class="glitch-effect" data-text="WELCOME TO THE ENGLISH PORTFOLIO">
                             WELCOME TO THE<br>
                             <span class="text-glitch">ENGLISH PORTFOLIO</span>
                         </h1>
-                        <p id="typing-text"></p>
+                        <p id="typing-text">English | 2025</p>
                         <div class="hero-buttons d-flex gap-3">
-                            <!-- buttons translated to English -->
                             <a href="#skills" class="btn-cyber">View Material</a>
                             <a href="#about" class="btn-outline">About Me</a>
                         </div>
@@ -2005,8 +2131,7 @@
         <div class="terminal-line"></div>
         <div class="terminal-commands">Edgar Herrera</div>
     </div>
-
-    <!-- About Section -->
+        <!-- About Section -->
     <section id="about" class="about section">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
@@ -2075,163 +2200,136 @@
     <!-- Terminal Section Divider -->
     <div class="terminal-divider">
         <div class="terminal-line"></div>
-        <div class="terminal-commands">Edgar Herrera</div>
+        <div class="terminal-commands">English</div>
     </div>
 
-    <!-- Skills Section (now "Material") -->
-    <section id="skills" class="section">
-        <div class="container">
-            <div class="section-title" data-aos="fade-up">
-                <h2 class="glitch-effect" data-text="Material">Material</h2>
-                <!-- updated English paragraph per request -->
-                <p>This section contains all the material provided during the second semester for the English course.</p>
-            </div>
-
-	<!-- Material grid (recreated): cards with explicit Open buttons -->
-	<div class="grid mt-4" id="materialGrid">
-		<div class="row g-4">
-			<!-- Card template: click Open or whole card area -->
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Cover">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-book-open"></i></div>
-						<div>
-							<div class="card-title">Cover</div>
-							<div class="card-desc">Presentation and summary</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Cover" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Content">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-file-alt"></i></div>
-						<div>
-							<div class="card-title">Content</div>
-							<div class="card-desc">Index, objectives and guides</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Content" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Class Materials">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-chalkboard-teacher"></i></div>
-						<div>
-							<div class="card-title">Class Materials</div>
-							<div class="card-desc">Notes and presentations</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Class Materials" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Midterms">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-file-signature"></i></div>
-						<div>
-							<div class="card-title">Midterms</div>
-							<div class="card-desc">Exams and assessments</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Midterms" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Workshops">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-tools"></i></div>
-						<div>
-							<div class="card-title">Workshops</div>
-							<div class="card-desc">Practical exercises</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Workshops" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Contributions">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-hands-helping"></i></div>
-						<div>
-							<div class="card-title">Contributions</div>
-							<div class="card-desc">Student contributions</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Contributions" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Evidence">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-folder-open"></i></div>
-						<div>
-							<div class="card-title">Evidence</div>
-							<div class="card-desc">Supporting files and proofs</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Evidence" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Reflection">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-lightbulb"></i></div>
-						<div>
-							<div class="card-title">Reflection</div>
-							<div class="card-desc">Final thoughts and takeaways</div>
-						</div>
-									</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Reflection" type="button">Open</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card-cyber" role="group" aria-label="Conclusions">
-					<div class="d-flex align-items-center gap-3">
-						<div class="card-icon-square"><i class="fas fa-flag-checkered"></i></div>
-						<div>
-							<div class="card-title">Conclusions</div>
-							<div class="card-desc">Summary and closing</div>
-						</div>
-					</div>
-					<div class="mt-3 text-end">
-						<button class="btn btn-sm btn-outline-light open-section" data-skill="Conclusions" type="button">Open</button>
-					</div>
-				</div>
-			</div>
+<!-- Material / Skills Section -->
+<section id="skills" class="section">
+	<div class="container">
+		<div class="section-title" data-aos="fade-up">
+			<h2 class="glitch-effect" data-text="Material">Material</h2>
+			<p>This section contains all the material provided during the second semester for the English course.</p>
 		</div>
-	</div>
 
+		<div class="grid mt-4" id="materialGrid">
+			<div class="row g-4">
+				<!-- Card items: 3 per row on lg (col-lg-4), 2 per row on md (col-md-6) -->
+
+				<div class="col-lg-4 col-md-6">
+					<a href="#home" class="card-cyber skip-modal" role="button" tabindex="0" aria-label="Cover 2 - Go to top">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-book"></i></div>
+							<div>
+								<div class="card-title">Cover</div>
+								<div class="card-desc">Presentation and summary</div>
+							</div>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Content" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-file-alt"></i></div>
+							<div>
+								<div class="card-title">Content</div>
+								<div class="card-desc">Index, objectives and guides</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Class Materials" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-chalkboard-teacher"></i></div>
+							<div>
+								<div class="card-title">Class Materials</div>
+								<div class="card-desc">Notes and presentations</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Midterms" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-file-signature"></i></div>
+							<div>
+								<div class="card-title">Midterms</div>
+								<div class="card-desc">Exams and assessments</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Workshops" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-tools"></i></div>
+							<div>
+								<div class="card-title">Workshops</div>
+								<div class="card-desc">Practical exercises</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Contributions" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-hands-helping"></i></div>
+							<div>
+								<div class="card-title">Contributions</div>
+								<div class="card-desc">Student contributions</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Evidence" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-folder-open"></i></div>
+							<div>
+								<div class="card-title">Evidence</div>
+								<div class="card-desc">Supporting files and proofs</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Reflection" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-lightbulb"></i></div>
+							<div>
+								<div class="card-title">Reflection</div>
+								<div class="card-desc">Final thoughts and takeaways</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card-cyber" data-skill="Conclusions" role="button" tabindex="0">
+						<div class="d-flex align-items-start gap-3">
+							<div class="card-icon-square"><i class="fas fa-flag-checkered"></i></div>
+							<div>
+								<div class="card-title">Conclusions</div>
+								<div class="card-desc">Summary and closing</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- /.row -->
+		</div> <!-- /#materialGrid -->
+	</div>
+</section>
     <!-- Terminal Section Divider -->
     <div class="terminal-divider">
         <div class="terminal-line"></div>
-        <div class="terminal-commands">cat ./resume_data.json</div>
+        <div class="terminal-commands">Edgar Herrera</div>
     </div>
 
     <!-- Resume Section -->
@@ -2330,14 +2428,12 @@
             </div>
         </div>
     </section>
-
     <!-- Terminal Section Divider -->
     <div class="terminal-divider">
         <div class="terminal-line"></div>
-        <div class="terminal-commands">ssh user@connect.me</div>
+        <div class="terminal-commands">English</div>
     </div>
-
-    <!-- Contact Section -->
+<!-- Contact Section -->
     <section id="contact" class="contact section">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
@@ -2390,7 +2486,6 @@
             <!-- removed contact form row as requested -->
         </div>
     </section>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -2461,6 +2556,9 @@
                 });
             }
             
+            // REGISTER GSAP PLUGINS (fix: ScrollTrigger must be registered)
+            gsap.registerPlugin(ScrollTrigger);
+
             // Initialize AOS with refined settings
             AOS.init({
                 duration: 800,
@@ -2469,6 +2567,11 @@
                 offset: 50,
                 disable: 'mobile'
             });
+
+            // ensure ScrollTrigger recalculates after AOS initialization
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+            }
             
             // Terminal Loader Animation
             const loaderOutputLines = document.querySelectorAll('.loader-output-line');
@@ -2515,6 +2618,14 @@
                 
                 // Initialize skill bars
                 initSkillBars();
+                
+                // Initialize count-up numbers (new)
+                initCountUp();
+
+                // refresh ScrollTrigger once everything is set
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
             }
             
             // Initialize GSAP animations
@@ -2686,20 +2797,7 @@
             function initTypingEffect() {
                 const typingText = document.getElementById('typing-text');
                 if (!typingText) return;
-                
-                // updated typing text per request
-                const text = "English | 2025";
-                let i = 0;
-                
-                function typeWriter() {
-                    if (i < text.length) {
-                        typingText.innerHTML += text.charAt(i);
-                        i++;
-                        setTimeout(typeWriter, 50);
-                    }
-                }
-                
-                setTimeout(typeWriter, 1000);
+                typingText.textContent = 'English | 2025';
             }
             
             // Initialize skill bars
@@ -2714,6 +2812,31 @@
                 }, 1500);
             }
             
+            // New: Count-up numbers that animate when scrolled into view
+            function initCountUp() {
+                if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+                const selectors = gsap.utils.toArray('[data-count], .count-up');
+                selectors.forEach(el => {
+                    const targetAttr = el.getAttribute('data-count') || el.getAttribute('data-target');
+                    const target = Number(targetAttr ?? el.textContent.replace(/\D/g, '')) || 0;
+                    const obj = { value: 0 };
+                    ScrollTrigger.create({
+                        trigger: el,
+                        start: 'top 85%',
+                        once: true,
+                        onEnter: () => {
+                            gsap.to(obj, {
+                                value: target,
+                                duration: Math.min(2.2, Math.max(0.8, target / 60)),
+                                ease: 'power1.out',
+                                roundProps: 'value',
+                                onUpdate: () => { el.textContent = obj.value; }
+                            });
+                        }
+                    });
+                });
+            }
+
             // Navbar scroll effect
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
@@ -2961,14 +3084,14 @@
 	    <div class="modal-content" style="background:rgba(12,12,24,0.98);color:#f2f2ff">
 	      <div class="modal-header">
 	        <i id="skillFilesIcon" class="fas fa-folder" style="color:var(--accent-cyan);margin-right:8px"></i>
-	        <h5 class="modal-title" id="skillFilesTitle">Files</h5>
+	        <h5 class="modal-title" id="skillFilesTitle">Archivos</h5>
 	        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body" id="skillFilesBody">
-	        <!-- dynamic content -->
+	        <!-- contenido dinámico -->
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cerrar</button>
 	      </div>
 	    </div>
 	  </div>
@@ -2976,748 +3099,143 @@
 
 	<!-- helper script: mapa de archivos + handlers -->
 	<script>
-	// English category map — updated Midterms (Parciales) entries
-	const filesMap = {
-		"Cover":[{title:"Cover.pdf", path:"C:/Users/edgar/Downloads/Cover.pdf"}],
-		"Content":[{title:"Content.pdf", path:"C:/Users/edgar/Downloads/Content.pdf"}],
-		"Class Materials":[{title:"Lecture_Notes.pdf", path:"C:/Users/edgar/Downloads/Lecture_Notes.pdf"}],
-		"Midterms":[
-			{title:"Parcial 1 (Midterm 1)", path:"C:/Users/edgar/Downloads/parcial1ngles.pdf"},
-			{title:"Parcial 2 (Midterm 2)", path:"C:/Users/edgar/Downloads/parcial2.pdf"}
-		],
-		"Workshops":[{title:"Workshop1.pdf", path:"C:/Users/edgar/Downloads/Workshop1.pdf"}],
-		"Contributions":[{title:"Contributions.pdf", path:"C:/Users/edgar/Downloads/Contributions.pdf"}],
-		"Evidence":[{title:"Evidence.zip", path:"C:/Users/edgar/Downloads/Evidence.zip"}],
-		"Reflection":[{title:"Reflection.docx", path:"C:/Users/edgar/Downloads/Reflection.docx"}],
-		"Conclusions":[{title:"Conclusions.pdf", path:"C:/Users/edgar/Downloads/Conclusions.pdf"}]
-	};
+	// --- REPLACED: filesMap + modal handlers + openViewer ---
+const filesMap = {
+	"Portada":[{title:"Portada.pdf", path:"C:/Users/edgar/Downloads/Portada.pdf"}],
+	"Contenido":[{title:"Contenido de la Asignatura.pdf", path:"C:/Users/edgar/Downloads/Contenido de la Asignatura Seguridad Informatica.pdf"}],
+	"Material de Clases":[{title:"Apuntes S1.pdf", path:"C:/Users/edgar/Downloads/Apuntes_S1.pdf"}],
+	"Parciales":[{title:"Parcial1.pdf", path:"C:/Users/edgar/Downloads/Parcial1.pdf"}],
+	"Proyectos":[{title:"Proyecto1.pdf", path:"C:/Users/edgar/Downloads/Proyecto1.pdf"}],
+	"Laboratorios":[{title:"Laboratorio1.pdf", path:"C:/Users/edgar/Downloads/Laboratorio1.pdf"}],
+	"Talleres":[{title:"TallerCESI.pdf", path:"C:/Users/edgar/Downloads/TallerCESI.pdf"}],
+	"Investigaciones":[{title:"Investigacion1.pdf", path:"C:/Users/edgar/Downloads/Investigacion1.pdf"}],
+	"Aportes":[{title:"Aportes.pdf", path:"C:/Users/edgar/Downloads/Aportes.pdf"}],
+	// Local fallback (Spanish key kept)...
+	"Conclusiones":[{title:"Conclusiones.pdf", path:"C:/Users/edgar/Downloads/Conclusiones.pdf"}],
+	// NEW: English key used by card data-skill. Use Google Drive preview URL for embedding.
+	"Conclusions":[{title:"Conclusions (Online)", path:"https://drive.google.com/file/d/1mZV0TZyLXYJurplGOFmXkyOvix58vKAa/preview"}]
+};
 
-	function toFileUrl(p){ return 'file:///' + encodeURI(p.replace(/\\/g,'/')); }
+function toFileUrl(p){
+	// if it's already an http/https URL, return as-is; otherwise make a file:/// URL
+	if (/^https?:\/\//i.test(p)) return p;
+	return 'file:///' + encodeURI(p.replace(/\\/g,'/'));
+}
 
-	// modal helpers
+// attach listeners after DOM ready
+document.addEventListener('DOMContentLoaded', ()=> {
 	const modalEl = document.getElementById('skillFilesModal');
-	const bsModal = modalEl ? new bootstrap.Modal(modalEl) : null;
+	const bsModal = new bootstrap.Modal(modalEl);
 	const titleEl = document.getElementById('skillFilesTitle');
 	const bodyEl = document.getElementById('skillFilesBody');
 
-	function populateModal(skill){
-		const files = filesMap[skill] || [];
-		if(!bodyEl) return;
-		if(files.length){
-			let html = '<div class="list-group">';
-			files.forEach(f=>{
-				const url = toFileUrl(f.path);
-				// compute public link if possible
-				let publicLinkHtml = '';
-				if(publicBaseUrl){
-					const filename = (f.path || '').split(/[\\/]/).pop();
-					if(filename){
-						const publicUrl = normalizeBase(publicBaseUrl) + '/files/' + encodeURIComponent(filename);
-						publicLinkHtml = `<a class="btn btn-sm btn-success me-1" href="${publicUrl}" target="_blank" rel="noopener">Public</a>`;
-					}
-				} else {
-					publicLinkHtml = `<button class="btn btn-sm btn-outline-secondary" disabled title="Set public base URL in Share →">No public link</button>`;
-				}
+	document.querySelectorAll('.card-cyber:not(.skip-modal)').forEach(card=>{
+		card.addEventListener('click', ()=>{
+			const skill = card.getAttribute('data-skill');
+			const icon = card.getAttribute('data-icon') || 'fas fa-folder';
+			titleEl.textContent = skill;
+			if (document.getElementById('skillFilesIcon')) document.getElementById('skillFilesIcon').className = icon + ' me-2';
 
-				html += `<div class="list-group-item d-flex justify-content-between align-items-center">
-							<div><strong>${f.title}</strong><div style="color:#9fbcc1;font-size:.9rem">${skill}</div></div>
-							<div>
-								${publicLinkHtml}
-								<a class="btn btn-sm btn-primary" href="${url}" download>Download</a>
-								<button class="btn btn-sm btn-outline-light view-btn" data-url="${url}" data-title="${f.title}">View</button>
-							</div>
-						</div>`;
-			});
-			html += '</div>';
-			bodyEl.innerHTML = html;
+			const files = filesMap[skill] || [];
 
-			// attach view handlers
-			bodyEl.querySelectorAll('.view-btn').forEach(b=>{
-				b.addEventListener('click', ()=> openViewer(b.dataset.url, b.dataset.title));
-			});
-		} else {
-			bodyEl.innerHTML = '<p style="color:#9fbcc1">No activities available for this section.</p>';
-		}
-	}
+			// Special UI for "Conclusions" — show a single interactive point that reveals Open/Close buttons
+			if (skill === 'Conclusions') {
+				const f = files[0]; // expected single online file
+				const url = f ? toFileUrl(f.path) : '#';
+				const safeTitle = f ? f.title : 'Conclusions';
+				bodyEl.innerHTML = `
+					<div style="color:#9fbcc1;font-family:Share Tech Mono;">
+						<!-- Punto interactivo -->
+						<button id="conclusions-point" class="btn btn-sm" style="background:transparent;border:1px dashed rgba(159,188,193,0.25);color:#9fbcc1;padding:10px 14px;border-radius:6px;">
+							<i class="fas fa-map-pin me-2" style="color:var(--accent-cyan)"></i> Conclusions
+						</button>
 
-	function openModal(skill, icon){
-		if(!bsModal) return;
-		if(titleEl) titleEl.textContent = skill;
-		if(icon && document.getElementById('skillFilesIcon')) document.getElementById('skillFilesIcon').className = icon + ' me-2';
-		populateModal(skill);
-
-		// show modal
-		bsModal.show();
-		// add body class so overlays ignore pointer events
-		document.body.classList.add('modal-active');
-		// focus first interactive element to ensure keyboard/mouse responsiveness
-		setTimeout(()=>{
-			const f = bodyEl.querySelector('button, a, input, [tabindex]:not([tabindex="-1"])');
-			if(f) try{ f.focus(); }catch(e){}
-		},50);
-	}
-
-	// close cleanup when modal hides
-	if(modalEl){
-		modalEl.addEventListener('hidden.bs.modal', ()=> {
-			document.body.classList.remove('modal-active');
-		});
-		// ensure class added on show (in case user triggers bootstrap-native triggers)
-		modalEl.addEventListener('shown.bs.modal', ()=> {
-			document.body.classList.add('modal-active');
-		});
-	}
-
-	// attach click listeners for the new Open buttons
-	document.addEventListener('click', (e)=>{
-		const btn = e.target.closest && e.target.closest('.open-section');
-		if(!btn) return;
-		const skill = btn.getAttribute('data-skill');
-		// try to read icon from closest card if present
-		const card = btn.closest('.card-cyber');
-		const icon = card ? (card.getAttribute('data-icon') || card.querySelector('i')?.className || 'fas fa-folder') : 'fas fa-folder';
-		openModal(skill, icon);
-	});
-
-	// keep openViewer as before (existing function lower in file) — it will still work
-	</script>
-
-	<!-- Share modal for portfolio URL -->
-	<div class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog modal-sm modal-dialog-centered">
-	    <div class="modal-content" style="background:rgba(12,12,24,0.98);color:#f2f2ff">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Share Portfolio</h5>
-	        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <div class="modal-body">
-	        <label class="form-label" style="color:#9fbcc1">Public base URL (optional)</label>
-	        <input id="publicBaseInput" class="form-control" placeholder="https://username.github.io/repo" />
-	        <small class="d-block mt-2" style="color:#9fbcc1">If you host the site and upload files to <code>/files/</code>, each file will get a "Public" link in the file modal.</small>
-	        <div class="mt-3 d-flex gap-2">
-	          <button id="copySiteBtn" class="btn btn-sm btn-primary">Copy site link</button>
-	          <button id="saveBaseBtn" class="btn btn-sm btn-outline-light">Save</button>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
-	<!-- tiny toast for copy feedback -->
-	<div id="shareToast" style="position:fixed;right:20px;bottom:20px;z-index:200000;display:none">
-		<div class="toast align-items-center text-bg-dark border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="padding:.6rem .9rem">
-			<div class="d-flex align-items-center">
-				<div id="shareToastText" style="color:#fff">Link copied to clipboard</div>
-				<button type="button" class="btn-close btn-close-white ms-2 mb-1" onclick="document.getElementById('shareToast').style.display='none'"></button>
-			</div>
-		</div>
-	</div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- AOS Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize variables
-            const loader = document.querySelector('.loader');
-            const backToTopButton = document.querySelector('.back-to-top');
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            const contactForm = document.getElementById('contact-form');
-            
-            // Custom cursor
-            const cursor = document.querySelector('.custom-cursor');
-            const cursorDot = document.querySelector('.cursor-dot');
-            
-            if (window.innerWidth > 991) {
-                document.addEventListener('mousemove', function(e) {
-                    cursor.style.left = e.clientX + 'px';
-                    cursor.style.top = e.clientY + 'px';
-                    
-                    cursorDot.style.left = e.clientX + 'px';
-                    cursorDot.style.top = e.clientY + 'px';
-                });
-                
-                document.addEventListener('mousedown', function() {
-                    cursor.classList.add('active');
-                });
-                
-                document.addEventListener('mouseup', function() {
-                    cursor.classList.remove('active');
-                });
-                
-                // Add hover effect for links, buttons, etc.
-                const interactiveElements = document.querySelectorAll('a, button, .cyber-box, input, textarea');
-                interactiveElements.forEach(el => {
-                    el.addEventListener('mouseenter', function() {
-                        cursor.classList.add('active');
-                    });
-                    
-                    el.addEventListener('mouseleave', function() {
-                        cursor.classList.remove('active');
-                    });
-                });
-            }
-            
-            // Initialize AOS with refined settings
-            AOS.init({
-                duration: 800,
-                easing: 'ease-out',
-                once: true,
-                offset: 50,
-                disable: 'mobile'
-            });
-            
-            // Terminal Loader Animation
-            const loaderOutputLines = document.querySelectorAll('.loader-output-line');
-            const loaderProgressBar = document.querySelector('.loader-progress-bar');
-            
-            let lineIndex = 0;
-            const showNextLine = () => {
-                if (lineIndex < loaderOutputLines.length) {
-                    loaderOutputLines[lineIndex].style.opacity = 1;
-                    loaderOutputLines[lineIndex].style.transform = 'translateX(0)';
-                    lineIndex++;
-                    setTimeout(showNextLine, 400);
-                }
-            };
-            
-            // Start loader animations
-            setTimeout(function() {
-                showNextLine();
-                loaderProgressBar.style.width = '100%';
-                
-                setTimeout(function() {
-                    loader.classList.add('fade-out');
-                    
-                    setTimeout(function() {
-                        // Initialize main page animations
-                        initPageAnimations();
-                    }, 500);
-                }, 3000);
-            }, 500);
-            
-            // Main page animations
-            function initPageAnimations() {
-                // Initialize GSAP and ScrollTrigger
-                initGSAPAnimations();
-                
-                // Initialize digital rain effect
-                initDigitalRain();
-                
-                // Initialize particles
-                initParticles();
-                
-                // Initialize typing effect
-                initTypingEffect();
-                
-                // Initialize skill bars
-                initSkillBars();
-            }
-            
-            // Initialize GSAP animations
-            function initGSAPAnimations() {
-                // Timeline animations
-                gsap.utils.toArray('.timeline-item').forEach((item, index) => {
-                    ScrollTrigger.create({
-                        trigger: item,
-                        start: 'top 80%',
-                        onEnter: () => {
-                            item.classList.add('active');
-                        },
-                        once: true
-                    });
-                });
-                
-                // Cyber box animations
-                gsap.utils.toArray('.cyber-box').forEach((box) => {
-                    ScrollTrigger.create({
-                        trigger: box,
-                        start: 'top 85%',
-                        onEnter: () => {
-                            gsap.to(box, {
-                                opacity: 1,
-                                duration: 0.5,
-                                ease: 'power2.out'
-                            });
-                        },
-                        once: true
-                    });
-                });
-            }
-            
-            // Initialize Digital Rain
-            function initDigitalRain() {
-                const digitalRain = document.getElementById('digital-rain');
-                if (!digitalRain) return;
-                
-                const characters = '01100101010111101010101110101010111010010101010110101010';
-                const columns = Math.floor(window.innerWidth / 20);
-                
-                for (let i = 0; i < columns; i++) {
-                    const column = document.createElement('div');
-                    column.className = 'rain-column';
-                    column.style.left = (i * 20) + 'px';
-                    column.style.animationDuration = 3 + Math.random() * 8 + 's';
-                    column.style.animationDelay = Math.random() * 5 + 's';
-                    
-                    let columnText = '';
-                    const length = 5 + Math.floor(Math.random() * 15);
-                    for (let j = 0; j < length; j++) {
-                        columnText += characters.charAt(Math.floor(Math.random() * characters.length)) + '<br>';
-                    }
-                    
-                    column.innerHTML = columnText;
-                    digitalRain.appendChild(column);
-                }
-            }
-            
-            // Initialize Particles
-            function initParticles() {
-                if (typeof particlesJS !== 'undefined' && document.getElementById('particles-js')) {
-                    particlesJS('particles-js', {
-                        particles: {
-                            number: {
-                                value: 50,
-                                density: {
-                                    enable: true,
-                                    value_area: 800
-                                }
-                            },
-                            color: {
-                                value: "#00ffd5"
-                            },
-                            shape: {
-                                type: "triangle",
-                                stroke: {
-                                    width: 0,
-                                    color: "#000000"
-                                }
-                            },
-                            opacity: {
-                                value: 0.2,
-                                random: true,
-                                anim: {
-                                    enable: true,
-                                    speed: 1,
-                                    opacity_min: 0.1,
-                                    sync: false
-                                }
-                            },
-                            size: {
-                                value: 3,
-                                random: true,
-                                anim: {
-                                    enable: true,
-                                    speed: 2,
-                                    size_min: 0.3,
-                                    sync: false
-                                }
-                            },
-                            line_linked: {
-                                enable: true,
-                                distance: 150,
-                                color: "#00ffd5",
-                                opacity: 0.2,
-                                width: 1
-                            },
-                            move: {
-                                enable: true,
-                                speed: 1,
-                                direction: "none",
-                                random: true,
-                                straight: false,
-                                out_mode: "out",
-                                bounce: false,
-                                attract: {
-                                    enable: false,
-                                    rotateX: 600,
-                                    rotateY: 1200
-                                }
-                            }
-                        },
-                        interactivity: {
-                            detect_on: "canvas",
-                            events: {
-                                onhover: {
-                                    enable: true,
-                                    mode: "repulse"
-                                },
-                                onclick: {
-                                    enable: true,
-                                    mode: "push"
-                                },
-                                resize: true
-                            },
-                            modes: {
-                                grab: {
-                                    distance: 400,
-                                    line_linked: {
-                                        opacity: 1
-                                    }
-                                },
-                                bubble: {
-                                    distance: 400,
-                                    size: 40,
-                                    duration: 2,
-                                    opacity: 8,
-                                    speed: 3
-                                },
-                                repulse: {
-                                    distance: 100,
-                                    duration: 0.4
-                                },
-                                push: {
-                                    particles_nb: 4
-                                },
-                                remove: {
-                                    particles_nb: 2
-                                }
-                            }
-                        },
-                        retina_detect: true
-                    });
-                }
-            }
-            
-            // Initialize typing effect
-            function initTypingEffect() {
-                const typingText = document.getElementById('typing-text');
-                if (!typingText) return;
-                
-                // updated typing text per request
-                const text = "English | 2025";
-                let i = 0;
-                
-                function typeWriter() {
-                    if (i < text.length) {
-                        typingText.innerHTML += text.charAt(i);
-                        i++;
-                        setTimeout(typeWriter, 50);
-                    }
-                }
-                
-                setTimeout(typeWriter, 1000);
-            }
-            
-            // Initialize skill bars
-            function initSkillBars() {
-                const skillBars = document.querySelectorAll('.skill-level-bar');
-                
-                setTimeout(() => {
-                    skillBars.forEach(bar => {
-                        const width = bar.getAttribute('data-width');
-                        bar.style.width = width;
-                    });
-                }, 1500);
-            }
-            
-            // Navbar scroll effect
-            window.addEventListener('scroll', function() {
-                const navbar = document.querySelector('.navbar');
-                if (navbar) {
-                    if (window.scrollY > 50) {
-                        navbar.classList.add('navbar-scrolled');
-                    } else {
-                        navbar.classList.remove('navbar-scrolled');
-                    }
-                }
-                
-                // Back to top button
-                if (backToTopButton) {
-                    if (window.scrollY > 300) {
-                        backToTopButton.classList.add('active');
-                    } else {
-                        backToTopButton.classList.remove('active');
-                    }
-                }
-                
-                // Update active nav link
-                updateActiveNavLink();
-            });
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        window.scrollTo({
-                            top: target.offsetTop - 70,
-                            behavior: 'smooth'
-                        });
-                        
-                        // Close navbar on mobile when clicking a link
-                        const navbarToggler = document.querySelector('.navbar-toggler');
-                        const navbarCollapse = document.querySelector('.navbar-collapse');
-                        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                            navbarToggler.click();
-                        }
-                    }
-                });
-            });
-            
-            // Back to top button click event
-            if (backToTopButton) {
-                backToTopButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            }
-            
-            // Telegram form submission
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const formStatus = document.getElementById('form-status');
-                    if (formStatus) {
-                        formStatus.style.display = 'block';
-                        formStatus.innerHTML = '<div style="color: var(--accent-cyan); padding: 15px; border: 1px solid var(--accent-cyan); border-radius: 4px;"><i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>Sending message...</div>';
-                    }
-                    
-                    const name = document.getElementById('name') ? document.getElementById('name').value : '';
-                    const email = document.getElementById('email') ? document.getElementById('email').value : '';
-                    const subject = document.getElementById('subject') ? document.getElementById('subject').value : '';
-                    const message = document.getElementById('message') ? document.getElementById('message').value : '';
-                    
-                    // Telegram Bot details
-                    const botToken = 'myBotToken'; // Your bot token
-                    const chatId = 'myChatID';     // Your chat ID
-                    
-                    // Format message for Telegram
-                    const telegramMessage = 
-                        `🔔 New Contact Form Message 🔔\n\n` +
-                        `👤 Name: ${name}\n` +
-                        `📧 Email: ${email}\n` +
-                        `📝 Subject: ${subject}\n` +
-                        `💬 Message: ${message}`;
-                        
-                    // Send to Telegram
-                    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            chat_id: chatId,
-                            text: telegramMessage
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.ok && formStatus) {
-                            formStatus.innerHTML = '<div style="color: var(--accent-cyan); padding: 15px; border: 1px solid var(--accent-cyan); border-radius: 4px;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>Message sent successfully!</div>';
-                            contactForm.reset();
-                            setTimeout(() => {
-                                formStatus.style.display = 'none';
-                            }, 5000);
-                        } else if (formStatus) {
-                            formStatus.innerHTML = '<div style="color: var(--accent-red); padding: 15px; border: 1px solid var(--accent-red); border-radius: 4px;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>Something went wrong. Please try again.</div>';
-                            console.error('Telegram API Error:', data);
-                        }
-                    })
-                    .catch(error => {
-                        if (formStatus) {
-                            formStatus.innerHTML = '<div style="color: var(--accent-red); padding: 15px; border: 1px solid var(--accent-red); border-radius: 4px;"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>Network error. Please check your connection.</div>';
-                        }
-                        console.error('Network Error:', error);
-                    });
-                });
-            }
-            
-            // Call updateActiveNavLink once on load
-            updateActiveNavLink();
-            
-            // Three.js Background Effects
-            function initThreeJsBackground() {
-                if (typeof THREE === 'undefined') return;
-                
-                const canvasContainer = document.createElement('div');
-                canvasContainer.id = 'canvas-container';
-                document.body.appendChild(canvasContainer);
-                
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setClearColor(0x000000, 0);
-                canvasContainer.appendChild(renderer.domElement);
-                
-                // Create grid of small cubes
-                const cubes = [];
-                const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-                const cubeMaterial = new THREE.MeshBasicMaterial({ 
-                    color: 0x00ffd5,
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.2
-                });
-                
-                for (let i = 0; i < 50; i++) {
-                    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-                    cube.position.x = (Math.random() - 0.5) * 20;
-                    cube.position.y = (Math.random() - 0.5) * 20;
-                    cube.position.z = (Math.random() - 0.5) * 20 - 10;
-                    cube.rotation.x = Math.random() * Math.PI;
-                    cube.rotation.y = Math.random() * Math.PI;
-                    
-                    scene.add(cube);
-                    cubes.push({
-                        mesh: cube,
-                        rotationSpeed: {
-                            x: (Math.random() - 0.5) * 0.01,
-                            y: (Math.random() - 0.5) * 0.01
-                        }
-                    });
-                }
-                
-                camera.position.z = 5;
-                
-                // Animation loop
-                function animate() {
-                    requestAnimationFrame(animate);
-                    
-                    cubes.forEach(cube => {
-                        cube.mesh.rotation.x += cube.rotationSpeed.x;
-                        cube.mesh.rotation.y += cube.rotationSpeed.y;
-                    });
-                    
-                    renderer.render(scene, camera);
-                }
-                
-                animate();
-                
-                // Handle window resize
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
-            }
-            
-            // Initialize Three.js effects if window width > 768
-            if (window.innerWidth > 768) {
-                setTimeout(() => {
-                    initThreeJsBackground();
-                }, 4000);
-            }
-            
-            // Glitch text effect initialization
-            setTimeout(() => {
-                const glitchTexts = document.querySelectorAll('.glitch-effect');
-                glitchTexts.forEach(text => {
-                    const content = text.textContent;
-                    text.setAttribute('data-text', content);
-                });
-            }, 1000);
-
-            // public base URL for hosted files (persist in localStorage)
-let publicBaseUrl = localStorage.getItem('publicBaseUrl') || '';
-
-// helper to normalize base URL (no trailing slash)
-function normalizeBase(url){
-	if(!url) return '';
-	return url.replace(/\/+$/,'');
-}
-
-// set input if modal opens
-const shareModalEl = document.getElementById('shareModal');
-const shareBsModal = shareModalEl ? new bootstrap.Modal(shareModalEl) : null;
-const publicBaseInput = document.getElementById('publicBaseInput');
-if(publicBaseInput) publicBaseInput.value = publicBaseUrl;
-
-// open share modal
-const shareBtn = document.getElementById('shareBtn');
-if(shareBtn){
-	shareBtn.addEventListener('click', ()=>{
-		if(publicBaseInput) publicBaseInput.value = publicBaseUrl;
-		shareBsModal.show();
-	});
-}
-
-// save base URL
-const saveBaseBtn = document.getElementById('saveBaseBtn');
-if(saveBaseBtn){
-	saveBaseBtn.addEventListener('click', ()=>{
-		publicBaseUrl = normalizeBase(publicBaseInput.value.trim());
-		localStorage.setItem('publicBaseUrl', publicBaseUrl);
-		shareBsModal.hide();
-		showToast('Public base URL saved.');
-	});
-}
-
-// copy site link (if publicBaseUrl set uses it, otherwise current page)
-const copySiteBtn = document.getElementById('copySiteBtn');
-if(copySiteBtn){
-	copySiteBtn.addEventListener('click', ()=>{
-		const link = publicBaseUrl || window.location.href;
-		navigator.clipboard?.writeText(link).then(()=> {
-			showToast('Link copied to clipboard');
-		}, ()=> {
-			alert('Could not copy. Manually copy: ' + link);
-		});
-	});
-}
-
-// small toast helper
-function showToast(msg){
-	const toast = document.getElementById('shareToast');
-	const txt = document.getElementById('shareToastText');
-	if(txt) txt.textContent = msg;
-	if(toast){
-		toast.style.display = 'block';
-		setTimeout(()=> toast.style.display = 'none', 2500);
-	}
-}
-
-        /* Augment the populateModal function to add public links when publicBaseUrl is set.
-   Find the function populateModal(skill) in your file and replace its files.forEach block with the snippet below.
-*/
-
-// inside populateModal, replace the files.forEach(...) block with:
-{
-	// ...existing code...
-	let html = '<div class="list-group">';
-	files.forEach(f=>{
-		const url = toFileUrl(f.path);
-		// compute public link if possible
-		let publicLinkHtml = '';
-		if(publicBaseUrl){
-			const filename = (f.path || '').split(/[\\/]/).pop();
-			if(filename){
-				const publicUrl = normalizeBase(publicBaseUrl) + '/files/' + encodeURIComponent(filename);
-				publicLinkHtml = `<a class="btn btn-sm btn-success me-1" href="${publicUrl}" target="_blank" rel="noopener">Public</a>`;
-			}
-		} else {
-			publicLinkHtml = `<button class="btn btn-sm btn-outline-secondary" disabled title="Set public base URL in Share →">No public link</button>`;
-		}
-
-		html += `<div class="list-group-item d-flex justify-content-between align-items-center">
-					<div><strong>${f.title}</strong><div style="color:#9fbcc1;font-size:.9rem">${skill}</div></div>
-					<div>
-						${publicLinkHtml}
-						<a class="btn btn-sm btn-primary" href="${url}" download>Download</a>
-						<button class="btn btn-sm btn-outline-light view-btn" data-url="${url}" data-title="${f.title}">View</button>
+						<div id="conclusions-actions" style="margin-top:12px;display:none;">
+							<button id="conclusions-open" class="btn btn-primary me-2">Open</button>
+							<button id="conclusions-close" class="btn btn-outline-light">Close</button>
+						</div>
 					</div>
-				</div>`;
-	});
-	html += '</div>';
-	bodyEl.innerHTML = html;
+				`;
+				// attach handlers
+				setTimeout(()=>{
+					const point = document.getElementById('conclusions-point');
+					const actions = document.getElementById('conclusions-actions');
+					const btnOpen = document.getElementById('conclusions-open');
+					const btnClose = document.getElementById('conclusions-close');
 
-	// attach view handlers
-	bodyEl.querySelectorAll('.view-btn').forEach(b=>{
-		b.addEventListener('click', ()=> openViewer(b.dataset.url, b.dataset.title));
-	});
-}
+					if(point && actions){
+						point.addEventListener('click', ()=> {
+							actions.style.display = (actions.style.display === 'none') ? 'block' : 'none';
+						});
+					}
+					if(btnOpen){
+						btnOpen.addEventListener('click', ()=> {
+							// open new tab with custom viewer (uses openViewer)
+							openViewer(url, safeTitle);
+						});
+					}
+					if(btnClose){
+						btnClose.addEventListener('click', ()=> {
+							bsModal.hide();
+						});
+					}
+				}, 50);
 
-        /* ...existing code... */
+				bsModal.show();
+				return;
+			}
+
+			// Default behavior: list files (existing implementation)
+			if(files.length){
+				let html = '<div class="list-group">';
+				files.forEach(f=>{
+					const url = toFileUrl(f.path);
+					html += `<div class="list-group-item d-flex justify-content-between align-items-center">
+								<div><strong>${f.title}</strong><div style="color:#9fbcc1;font-size:.9rem">${skill}</div></div>
+								<div>
+									<a class="btn btn-sm btn-primary" href="${url}" download>Descargar</a>
+									<button class="btn btn-sm btn-outline-light open-btn" data-url="${url}" data-title="${f.title}">Abrir</button>
+								</div>
+							</div>`;
+				});
+				html += '</div>';
+				bodyEl.innerHTML = html;
+				bodyEl.querySelectorAll('.open-btn').forEach(b=> b.addEventListener('click', ()=>{
+					openViewer(b.dataset.url, b.dataset.title);
+				}));
+			} else {
+				bodyEl.innerHTML = '<p style="color:#9fbcc1">No hay archivos disponibles para esta sección.</p>';
+			}
+			bsModal.show();
+		});
+	});
+});
+
+// openViewer: opens a new window with a simple viewer + Back to Portfolio button
+function openViewer(url,title){
+	try{
+		const w = window.open('','_blank');
+		if(!w){ alert('Revisa el bloqueador de ventanas.'); return; }
+		const safe = (s)=> s.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+		// use a local relative path for back (will redirect to the portfolio index)
+		const backHref = 'index-ingles.html';
+		const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${safe(title)}</title>
+			<style>body{margin:0;background:#090912;color:#fff;font-family:Rajdhani,Arial,sans-serif}.hdr{display:flex;align-items:center;padding:12px;background:#0c0c14;border-bottom:1px solid rgba(255,255,255,.03)}.logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#960029,#e31b54);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-right:12px}.btn{background:linear-gradient(135deg,#960029,#e31b54);color:#fff;padding:8px 12px;border-radius:4px;text-decoration:none;margin-left:8px;border:none;cursor:pointer}.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:4px;margin-left:8px;cursor:pointer}</style>
+			</head><body>
+			<div class="hdr">
+				<div class="logo">EH</div>
+				<div style="font-weight:700">${safe(title)}</div>
+				<div style="margin-left:auto;display:flex;gap:8px">
+					<a class="btn" href="${url}" target="_blank" rel="noopener noreferrer">Open in raw tab</a>
+					<button class="btn" onclick="window.location.href='${backHref}';">Back to Portfolio</button>
+					<button class="btn-outline" onclick="window.close();return false;">Close</button>
+				</div>
+			</div>
+			<iframe src="${url}" style="width:100%;height:calc(100vh - 56px);border:0"></iframe>
+			</body></html>`;
+		w.document.write(html); w.document.close();
+	}catch(e){ console.error(e); alert('No se pudo abrir visor.'); }
+	}
     </script>
-
-    <!-- ...existing code... -->
+</body>
+</html>
