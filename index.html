@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -3113,7 +3113,17 @@ const filesMap = {
 	// Local fallback (Spanish key kept)...
 	"Conclusiones":[{title:"Conclusiones.pdf", path:"C:/Users/edgar/Downloads/Conclusiones.pdf"}],
 	// NEW: English key used by card data-skill. Use Google Drive preview URL for embedding.
-	"Conclusions":[{title:"Conclusions (Online)", path:"https://drive.google.com/file/d/1mZV0TZyLXYJurplGOFmXkyOvix58vKAa/preview"}]
+	"Conclusions":[{title:"Conclusions (Online)", path:"https://drive.google.com/file/d/1mZV0TZyLXYJurplGOFmXkyOvix58vKAa/preview"}],
+	// NEW: Midterms entries (two midterm links provided)
+	"Midterms":[
+		{ title: "Midterm 1", path: "https://drive.google.com/file/d/1tTOMRjPUm155yAmtgt7zf1TIaU0IndL3/view?usp=sharing" },
+		{ title: "Midterm 2", path: "https://drive.google.com/file/d/1mQxzhSV7U2UG4MzEpjx9LgrYDa8EV70H/view?usp=sharing" }
+	],
+	// NEW: Class Materials entries (module links provided)
+	"Class Materials":[
+		{ title: "Module 1", path: "https://drive.google.com/file/d/1Ein6T7wLm1r5vNwuTD-TBllWeKlRbgDm/view?usp=sharing" },
+		{ title: "Module 2", path: "https://drive.google.com/file/d/19AkO_Fy3_1bhDyY0OXm9dWi1CHakxJHh/view?usp=sharing" }
+	]
 };
 
 function toFileUrl(p){
@@ -3179,6 +3189,100 @@ document.addEventListener('DOMContentLoaded', ()=> {
 							bsModal.hide();
 						});
 					}
+				}, 50);
+
+				bsModal.show();
+				return;
+			}
+
+			// NEW: Special UI for "Midterms" — show two selectable midterm entries
+			if (skill === 'Midterms') {
+				// prepare urls (use toFileUrl so http(s) remain unchanged)
+				const mFiles = files;
+				const htmlParts = ['<div style="color:#9fbcc1;font-family:Share Tech Mono;">'];
+				htmlParts.push('<p style="margin-bottom:8px;">Select a midterm:</p>');
+				mFiles.forEach((f, idx) => {
+					const id = `midterm-${idx+1}`;
+					const actionsId = `${id}-actions`;
+					htmlParts.push(`
+						<div style="margin-bottom:10px;">
+							<button id="${id}" class="btn btn-sm" style="background:transparent;border:1px dashed rgba(159,188,193,0.25);color:#9fbcc1;padding:10px 14px;border-radius:6px;">
+								<i class="fas fa-file-alt me-2" style="color:var(--accent-cyan)"></i> ${f.title}
+							</button>
+							<div id="${actionsId}" style="margin-top:8px;display:none;">
+								<button class="btn btn-primary btn-open" data-url="${toFileUrl(f.path)}" data-title="${f.title}">Open</button>
+								<button class="btn btn-outline-light btn-close">Close</button>
+							</div>
+						</div>
+					`);
+				});
+				htmlParts.push('</div>');
+				bodyEl.innerHTML = htmlParts.join('');
+
+				// attach handlers
+				setTimeout(()=>{
+					mFiles.forEach((f, idx) => {
+						const id = `midterm-${idx+1}`;
+						const actionsId = `${id}-actions`;
+						const btn = document.getElementById(id);
+						const actions = document.getElementById(actionsId);
+						if (btn && actions) {
+							btn.addEventListener('click', ()=> {
+								actions.style.display = (actions.style.display === 'none') ? 'block' : 'none';
+							});
+							// open / close inside actions
+							const openBtn = actions.querySelector('.btn-open');
+							const closeBtn = actions.querySelector('.btn-close');
+							if (openBtn) openBtn.addEventListener('click', ()=> openViewer(openBtn.dataset.url, openBtn.dataset.title));
+							if (closeBtn) closeBtn.addEventListener('click', ()=> bsModal.hide());
+						}
+					});
+				}, 50);
+
+				bsModal.show();
+				return;
+			}
+
+			// NEW: Special UI for "Class Materials" — show two selectable module entries
+			if (skill === 'Class Materials') {
+				const mFiles = files;
+				const htmlParts = ['<div style="color:#9fbcc1;font-family:Share Tech Mono;">'];
+				htmlParts.push('<p style="margin-bottom:8px;">Select a module:</p>');
+				mFiles.forEach((f, idx) => {
+					const id = `module-${idx+1}`;
+					const actionsId = `${id}-actions`;
+					htmlParts.push(`
+						<div style="margin-bottom:10px;">
+							<button id="${id}" class="btn btn-sm" style="background:transparent;border:1px dashed rgba(159,188,193,0.25);color:#9fbcc1;padding:10px 14px;border-radius:6px;">
+								<i class="fas fa-file-alt me-2" style="color:var(--accent-cyan)"></i> ${f.title}
+							</button>
+							<div id="${actionsId}" style="margin-top:8px;display:none;">
+								<button class="btn btn-primary btn-open" data-url="${toFileUrl(f.path)}" data-title="${f.title}">Open</button>
+								<button class="btn btn-outline-light btn-close">Close</button>
+							</div>
+						</div>
+					`);
+				});
+				htmlParts.push('</div>');
+				bodyEl.innerHTML = htmlParts.join('');
+
+				// attach handlers
+				setTimeout(()=>{
+					mFiles.forEach((f, idx) => {
+						const id = `module-${idx+1}`;
+						const actionsId = `${id}-actions`;
+						const btn = document.getElementById(id);
+						const actions = document.getElementById(actionsId);
+						if (btn && actions) {
+							btn.addEventListener('click', ()=> {
+								actions.style.display = (actions.style.display === 'none') ? 'block' : 'none';
+							});
+							const openBtn = actions.querySelector('.btn-open');
+							const closeBtn = actions.querySelector('.btn-close');
+							if (openBtn) openBtn.addEventListener('click', ()=> openViewer(openBtn.dataset.url, openBtn.dataset.title));
+							if (closeBtn) closeBtn.addEventListener('click', ()=> bsModal.hide());
+						}
+					});
 				}, 50);
 
 				bsModal.show();
