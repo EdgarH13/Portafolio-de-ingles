@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="image.png" type="image/png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Edgar Herrera | Cyber Developer Portfolio</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -2017,6 +2018,8 @@
     </style>
 </head>
 <body>
+
+
     <!-- Scanline effect -->
     <div class="scanlines"></div>
 
@@ -2183,7 +2186,7 @@
                                                     <li>Potential communication barriers when traveling or collaborating globally.</li>
                                                     <li>Fewer networking and growth opportunities with international communities.</li>
                                                 </ul>
-                                            </div>
+                                                                                       </div>
                                         </div>
                                     </div>
                                 </div>
@@ -3113,7 +3116,16 @@ const filesMap = {
 	"Conclusiones":[{title:"Conclusiones.pdf", path:"C:/Users/edgar/Downloads/Conclusiones.pdf"}],
 	// NEW: English key used by card data-skill. Use Google Drive preview URL for embedding.
 	"Conclusions":[{title:"Conclusions (Online)", path:"https://drive.google.com/file/d/1mZV0TZyLXYJurplGOFmXkyOvix58vKAa/preview"}],
-	// NEW: Midterms entries (two midterm links provided)
+	
+    // NEW: Content entries (4 content links provided)
+	"Content":[
+        { title: "Speech", path: "https://drive.google.com/file/d/11FFj4C_wFVgyYHH9Yd1BKH0xJeYaDGr-/preview" },
+        { title: "Conference", path: "https://drive.google.com/file/d/1W_kiwm5sxQQrKdMXFyVEj7QN0V1HF1jd/preview" },
+		{ title: "Module1.1", path: "https://drive.google.com/file/d/1VxoGWaT9RLfYbtDv8EQyf6ip2D1DFAbu/preview" },
+		{ title: "Thanksgiving", path: "https://drive.google.com/file/d/1TppzkOyJ2FTyjmnP_DcgaQfPYX78gH9Q/preview" }
+	],
+    
+    // NEW: Midterms entries (two midterm links provided)
 	"Midterms":[
 		{ title: "Midterm 1", path: "https://drive.google.com/file/d/1tTOMRjPUm155yAmtgt7zf1TIaU0IndL3/preview" },
 		{ title: "Midterm 2", path: "https://drive.google.com/file/d/1mQxzhSV7U2UG4MzEpjx9LgrYDa8EV70H/preview" }
@@ -3288,6 +3300,55 @@ document.addEventListener('DOMContentLoaded', ()=> {
 				return;
 			}
 
+
+// NEW: Special UI for "Content" — show two selectable module entries
+			if (skill === 'Content') {
+				const mFiles = files;
+				const htmlParts = ['<div style="color:#9fbcc1;font-family:Share Tech Mono;">'];
+				htmlParts.push('<p style="margin-bottom:8px;">Select a content:</p>');
+				mFiles.forEach((f, idx) => {
+					const id = `module-${idx+1}`;
+					const actionsId = `${id}-actions`;
+					htmlParts.push(`
+						<div style="margin-bottom:10px;">
+							<button id="${id}" class="btn btn-sm" style="background:transparent;border:1px dashed rgba(159,188,193,0.25);color:#9fbcc1;padding:10px 14px;border-radius:6px;">
+								<i class="fas fa-file-alt me-2" style="color:var(--accent-cyan)"></i> ${f.title}
+							</button>
+							<div id="${actionsId}" style="margin-top:8px;display:none;">
+								<button class="btn btn-primary btn-open" data-url="${toFileUrl(f.path)}" data-title="${f.title}">Open</button>
+								<button class="btn btn-outline-light btn-close">Close</button>
+							</div>
+						</div>
+					`);
+				});
+				htmlParts.push('</div>');
+				bodyEl.innerHTML = htmlParts.join('');
+
+				// attach handlers
+				setTimeout(()=>{
+					mFiles.forEach((f, idx) => {
+						const id = `module-${idx+1}`;
+						const actionsId = `${id}-actions`;
+						const btn = document.getElementById(id);
+						const actions = document.getElementById(actionsId);
+						if (btn && actions) {
+							btn.addEventListener('click', ()=> {
+								actions.style.display = (actions.style.display === 'none') ? 'block' : 'none';
+							});
+							const openBtn = actions.querySelector('.btn-open');
+							const closeBtn = actions.querySelector('.btn-close');
+							if (openBtn) openBtn.addEventListener('click', ()=> openViewer(openBtn.dataset.url, openBtn.dataset.title));
+							if (closeBtn) closeBtn.addEventListener('click', ()=> bsModal.hide());
+						}
+					});
+				}, 50);
+
+				bsModal.show();
+				return;
+			}
+
+
+
 			// Default behavior: list files (existing implementation)
 			if(files.length){
 				let html = '<div class="list-group">';
@@ -3341,4 +3402,6 @@ function openViewer(url,title){
 	}
     </script>
 </body>
+
+
 </html>
